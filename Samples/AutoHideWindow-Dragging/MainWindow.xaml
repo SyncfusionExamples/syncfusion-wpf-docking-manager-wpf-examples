@@ -1,0 +1,47 @@
+﻿<Window x:Class="AutoHideWindow_Dragging.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="DockingManager - AutoHideWindow" Height="450" Width="400">
+    <Grid>
+        <syncfusion:DockingManager Name="dockingManager">
+
+            <!--Disable dragging-->
+            <ContentControl Content="Left Window"
+                            syncfusion:DockingManager.Header="Item1" 
+                            syncfusion:DockingManager.State="AutoHidden" 
+                            syncfusion:DockingManager.CanDragAutoHidden="False" 
+                            syncfusion:DockingManager.SideInDockedMode="left"
+                            Name="AutoHideWindow1" />
+            
+            <ContentControl Content="Bottom Window"
+                            syncfusion:DockingManager.Header="Item4"            
+                            syncfusion:DockingManager.State="AutoHidden" 
+                            syncfusion:DockingManager.CanDragAutoHidden="False"
+                            syncfusion:DockingManager.SideInDockedMode="Bottom"
+                            Name="AutoHideWindow4"/>
+
+            <!--Enable dragging-->
+            <ContentControl Content="Top Window"
+                            syncfusion:DockingManager.Header="Item2"            
+                            syncfusion:DockingManager.State="AutoHidden" 
+                            syncfusion:DockingManager.CanDragAutoHidden="True" 
+                            syncfusion:DockingManager.SideInDockedMode="Top"
+                            Name="AutoHideWindow2"/>
+            
+            <ContentControl Content="Right Window"
+                            syncfusion:DockingManager.Header="Item3" 
+                            syncfusion:DockingManager.State="AutoHidden" 
+                            syncfusion:DockingManager.CanDragAutoHidden="True" 
+                            syncfusion:DockingManager.SideInDockedMode="Right"
+                            Name="AutoHideWindow3" />
+
+            <!--Disable dragging-->
+            
+            
+        </syncfusion:DockingManager>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="DockingManager_PreviewDockHints_Event.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:DockingManager_PreviewDockHints_Event"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
+    <Grid>
+        <syncfusion:DockingManager Name="dockingManager"  >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewDockHints">
+                    <i:InvokeCommandAction Command="{Binding PreviewDockHintsCommand}"
+                                           CommandParameter="{Binding ElementName=dockingManager}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ContentControl syncfusion:DockingManager.Header="Solution Explorer"
+                             Name="SolutionExplorer"/>
+            <ContentControl syncfusion:DockingManager.Header="Output" 
+                             Name="Output" />
+            <ContentControl syncfusion:DockingManager.Header="Properties"
+                             Name="Properties" />
+        </syncfusion:DockingManager>
+    </Grid>
+</Window>

@@ -4,29 +4,26 @@ using System.Windows.Input;
 
 namespace DockingManager_PreviewDockHints_Event
 {
-    class ViewModel
+    class ViewModel : NotificationObject
     {
         private ICommand previewDockHintsCommand;
-
         public ICommand PreviewDockHintsCommand
         {
             get
             {
+                if (previewDockHintsCommand == null)
+                    previewDockHintsCommand = new UpdateDockingHints();
                 return previewDockHintsCommand;
             }
-        }
-        public ViewModel()
-        {
-            previewDockHintsCommand = new DelegateCommand<object>(previewDockHintsChanged);
+            set
+            {
+                previewDockHintsCommand = value;
+            }
         }
 
-        private void previewDockHintsChanged(object obj)
+        public ViewModel()
         {
-            //if (e.DraggingTarget == Output)
-            //{
-            //    e.DockAbility = DockAbility.Top;
-            //    e.OuterDockAbility = OuterDockAbility.Top;
-            //}
+
         }
     }
 }

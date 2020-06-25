@@ -13,12 +13,11 @@
     </Window.DataContext>
     <Grid>
         <syncfusion:DockingManager Name="dockingManager"  >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewDockHints">
-                    <i:InvokeCommandAction Command="{Binding PreviewDockHintsCommand}"
-                                           CommandParameter="{Binding ElementName=dockingManager}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <local:EventToCommandBehavior PassArguments="true" 
+                                              Event="PreviewDockHints"
+                                              Command="{Binding PreviewDockHintsCommand}" />
+            </i:Interaction.Behaviors>
             <ContentControl syncfusion:DockingManager.Header="Solution Explorer"
                              Name="SolutionExplorer"/>
             <ContentControl syncfusion:DockingManager.Header="Output" 

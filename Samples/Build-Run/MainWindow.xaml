@@ -7,64 +7,86 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="DockingManager- Build and Run mode" Height="450" Width="800">
     <Grid>
-        <syncfusion:DockingManager x:Name="dockingManager"
-                                   UseDocumentContainer="True" >
-            <!-- Output docking window -->
-            <ContentControl x:Name="Output"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Menu>
+                <MenuItem
+                    x:Name="resetLayout"
+                    Click="layout_Click"
+                    Header="Reset Layout" />
+                
+                <MenuItem Header="Run"
+                          Name="debug_option"
+                          Click="layout_Click"/>               
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <syncfusion:DockingManager x:Name="dockingManager" PersistState="True"
+                                       UseDocumentContainer="True" >
+                 <!--Output docking window--> 
+                <ContentControl x:Name="Output"
                             syncfusion:DockingManager.Header="Output"
                             syncfusion:DockingManager.SideInDockedMode="Bottom"
                             syncfusion:DockingManager.DesiredWidthInDockedMode="150" />
-            <!-- FindResults docking window -->
-            <ContentControl x:Name="FindResults"
-                            syncfusion:DockingManager.Header="Find Results"
+                <!--Autos docking window--> 
+                <ContentControl x:Name="Autos"
+                            syncfusion:DockingManager.Header="Autos"
                             syncfusion:DockingManager.SideInDockedMode="Tabbed"
                             syncfusion:DockingManager.TargetNameInDockedMode="Output" />
-            <!-- ErrorList docking window -->
-            <ContentControl x:Name="ErrorList"
-                            syncfusion:DockingManager.Header="Error List"
+                <!--Watch1 docking window--> 
+                <ContentControl x:Name="Watch1"
+                            syncfusion:DockingManager.Header="Watch1"
+                            syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                            syncfusion:DockingManager.TargetNameInDockedMode="Output" />
+                <!--CallStack docking window-->
+                <ContentControl x:Name="CallStack"
+                            syncfusion:DockingManager.Header="Call Stack"
+                            syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                            syncfusion:DockingManager.TargetNameInDockedMode="Output" />
+                <!--Immediate docking window--> 
+                <ContentControl x:Name="ImmediateWindow"
+                            syncfusion:DockingManager.Header="Immediate Window"
                             syncfusion:DockingManager.SideInDockedMode="Tabbed"
                             syncfusion:DockingManager.TargetNameInDockedMode="Output" />
 
-            <!-- Run application window -->
-            <ContentControl x:Name="RunApplication"
-                            syncfusion:DockingManager.Header="Run Application"
-                            syncfusion:DockingManager.SideInDockedMode="Top">
-                <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center" >
-                    <Button Content ="Build" Width="70" Margin="5" Height="25" Click="Build_Click"/>
-                    <Button Content ="Start" Width="70" Margin="5" Height="25" Click="Start_Click"/>
-                    <Button Content ="Stop"  Width="70" Margin="5" Height="25" Click="Stop_Click"/>
-                </StackPanel>
-            </ContentControl>
-            <!-- Toolbox docking window -->
-            <ContentControl x:Name="Toolbox"
+                
+                <!-- Toolbox docking window -->
+                <ContentControl x:Name="Toolbox"
                             syncfusion:DockingManager.Header="Toolbox"
                             syncfusion:DockingManager.State="Dock"
                             syncfusion:DockingManager.DesiredWidthInDockedMode="180" />
-            <!-- SolutionExplorer docking window -->
-            <ContentControl x:Name="SolutionExplorer"
+                <!-- SolutionExplorer docking window -->
+                <ContentControl x:Name="SolutionExplorer"
                             syncfusion:DockingManager.Header="Solution Explorer"
                             syncfusion:DockingManager.SideInDockedMode="Right"
                             syncfusion:DockingManager.DesiredWidthInDockedMode="200" />
-            <!-- ClassView docking window -->
-            <ContentControl x:Name="ClassView"
-                            syncfusion:DockingManager.Header="Class View"
+                <!-- DiagnosticTools docking window -->
+                <ContentControl x:Name="DiagnosticTools"
+                            syncfusion:DockingManager.Header="DiagnosticTools"
                             syncfusion:DockingManager.SideInDockedMode="Tabbed"
                             syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" />
-            <!-- Properties docking window -->
-            <ContentControl x:Name="Properties"
+                <!-- TeamExplorer docking window -->
+                <ContentControl x:Name="TeamExplorer"
+                            syncfusion:DockingManager.Header="Team Explorer"
+                            syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                            syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" />
+                <!-- Properties docking window -->
+                <ContentControl x:Name="Properties"
                             syncfusion:DockingManager.Header="Properties Window"
                             syncfusion:DockingManager.SideInDockedMode="Tabbed"
                             syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" />
-            <!-- Tabbed document window -->
-            <ContentControl x:Name="MainWindowXAMLView"
+                <!-- Tabbed document window -->
+                <ContentControl x:Name="MainWindowXAMLView"
                             syncfusion:DockingManager.Header="MainWindow.xaml"
                             syncfusion:DockingManager.State="Document" />
-            <!-- Tabbed document window -->
-            <ContentControl x:Name="MainWindowCSView"
+                <!-- Tabbed document window -->
+                <ContentControl x:Name="MainWindowCSView"
                             syncfusion:DockingManager.Header="MainWindow.xaml.cs"
                             syncfusion:DockingManager.State="Document" />
-        </syncfusion:DockingManager>
+            </syncfusion:DockingManager>
+        </Grid>
     </Grid>
 </Window>

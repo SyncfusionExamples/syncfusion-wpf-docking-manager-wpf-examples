@@ -29,9 +29,9 @@ namespace Build_Run
             path = @"Layouts/CurrentLayout.xml";
 
             ///Check and load the missed elements from saved layout
-            if (dockingManager.Children.Count != GetSavedControlList(path).Count)
+            if (!dockingManager.LoadDockState(path))
             {
-                LoadLayout(dockingManager, GetSavedControlList(path));
+                FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
             }           
 
             //Loading the finally saved layout
@@ -64,9 +64,9 @@ namespace Build_Run
                 }
 
                 //Check and load the missed elements from saved layout
-                if (dockingManager.Children.Count != GetSavedControlList(path).Count)
+                if (!dockingManager.LoadDockState(path))
                 {
-                    LoadLayout(dockingManager, GetSavedControlList(path));
+                    FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
                 }
                 this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, path);
                 isRunModeEnabled = true;
@@ -88,9 +88,9 @@ namespace Build_Run
                 }
 
                 //Check and load the missed elements from saved layout
-                if (dockingManager.Children.Count != GetSavedControlList(path).Count)
+                if (!dockingManager.LoadDockState(path))
                 {
-                    LoadLayout(dockingManager, GetSavedControlList(path));
+                    FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
                 }
                 this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, path);
                 isRunModeEnabled = false;
@@ -110,9 +110,9 @@ namespace Build_Run
                 }
 
                 //Check and load the missed elements from saved layout
-                if (dockingManager.Children.Count != GetSavedControlList(path).Count)
+                if (!dockingManager.LoadDockState(path))
                 {
-                    LoadLayout(dockingManager, GetSavedControlList(path));
+                    FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
                 }
                 this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, path);
             }
@@ -145,7 +145,7 @@ namespace Build_Run
         /// </summary>
         /// <param name="contentControl">Instance of current DockingManager</param>
         /// <param name="savedControlList">List of windows name from saved layouts</param>
-        protected void LoadLayout(DockingManager contentControl, List<string> savedControlList)
+        protected void FindAndAddMissedChidren(DockingManager contentControl, List<string> savedControlList)
         {
             if (contentControl != null && savedControlList !=null)
             {

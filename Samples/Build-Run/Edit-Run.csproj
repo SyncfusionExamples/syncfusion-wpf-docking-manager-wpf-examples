@@ -7,7 +7,7 @@
     <ProjectGuid>{0C8A2A16-CA96-4C97-91CC-832F867B1CE2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Build_Run</RootNamespace>
-    <AssemblyName>Build-Run</AssemblyName>
+    <AssemblyName>Edit-Run</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -112,12 +112,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Layouts\DefaultLayout.xml">
+    <None Include="Layouts\DefaultEditLayout.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Layouts\CurrentLayout.xml">
+    <None Include="Layouts\CurrentEditLayout.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -127,9 +127,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Layouts\DefaultStopLayout.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Images\sync_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

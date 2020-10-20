@@ -17,43 +17,56 @@ namespace Build_Run
         bool isRunModeEnabled = false;
         BinaryFormatter formatter = new BinaryFormatter();
         string path = string.Empty;
+
         public MainWindow()
         {
             InitializeComponent();
             dockingManager.Loaded += DockingManager_Loaded;
-            this.Closing += MainWindow_Closing;            
+            this.Closing += MainWindow_Closing;
         }
 
         private void DockingManager_Loaded(object sender, RoutedEventArgs e)
         {
-            path = @"Layouts/CurrentLayout.xml";
+            path = @"Layouts/CurrentEditLayout.xml";
 
-            ///Check and load the missed elements from saved layout
+            ///Check and load the missed elements from Edit mode saved layout
             if (!dockingManager.LoadDockState(path))
             {
                 FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
-            }           
+            }
 
-            //Loading the finally saved layout
-            this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, @"Layouts/CurrentLayout.xml");
+            //Loading the last Edit mode saved layout
+            this.dockingManager.LoadDockState(formatter, StorageFormat.Xml,
+                                              @"Layouts/CurrentEditLayout.xml");
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Save the layout when current mode is not a run mode.
-            if(!isRunModeEnabled)
-                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, @"Layouts/CurrentLayout.xml");
+            //Save the Edit mode layout
+            if (!isRunModeEnabled)
+            {
+                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml,
+                                                  @"Layouts/CurrentEditLayout.xml");
+
+            }
+            else
+            {
+                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml,
+                                                 @"Layouts/CurrentRunLayout.xml");
+            }
         }
 
-        private void layout_Click(object sender, RoutedEventArgs e)
-        {     
+        private void layout_Click(object sender,
+            RoutedEventArgs e)
+        {
             string layout_Header = (sender as MenuItem).Header.ToString();
 
-            // Saving the current state and loading the running state
+            // Saving the current Edit mode layout and loading the Run mode layout
             if (layout_Header == "Run")
             {
                 (sender as MenuItem).Header = "Stop";
-                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, @"Layouts/CurrentLayout.xml");
+                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml,
+                                                  @"Layouts/CurrentEditLayout.xml");
                 if (isResetLayout)
                 {
                     path = @"Layouts/DefaultRunLayout.xml";
@@ -63,31 +76,31 @@ namespace Build_Run
                     path = @"Layouts/CurrentRunLayout.xml";
                 }
 
-                //Check and load the missed elements from saved layout
+                //Check and load the missed elements from Run mode saved layout
                 if (!dockingManager.LoadDockState(path))
                 {
                     FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
                 }
                 this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, path);
                 isRunModeEnabled = true;
-
             }
 
-            //Saving the current running state and loading the normal state
+            //Saving the current Run mode layout and loading the Edit mode layout
             else if (layout_Header == "Stop")
             {
-                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, @"Layouts/CurrentRunLayout.xml");
+                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml,
+                                                  @"Layouts/CurrentRunLayout.xml");
                 (sender as MenuItem).Header = "Run";
                 if (isResetLayout)
                 {
-                    path = @"Layouts/DefaultLayout.xml";
+                    path = @"Layouts/DefaultEditLayout.xml";
                 }
                 else
                 {
-                    path = @"Layouts/CurrentLayout.xml";
+                    path = @"Layouts/CurrentEditLayout.xml";
                 }
 
-                //Check and load the missed elements from saved layout
+                //Check and load the missed elements from Edit mode saved layout
                 if (!dockingManager.LoadDockState(path))
                 {
                     FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
@@ -106,10 +119,10 @@ namespace Build_Run
                 }
                 else
                 {
-                    path = @"Layouts/DefaultLayout.xml";
+                    path = @"Layouts/DefaultEditLayout.xml";
                 }
 
-                //Check and load the missed elements from saved layout
+                //Check and load the missed elements from Default Edit mode saved layout
                 if (!dockingManager.LoadDockState(path))
                 {
                     FindAndAddMissedChidren(dockingManager, GetSavedControlList(path));
@@ -133,7 +146,7 @@ namespace Build_Run
             {
                 if (node.HasChildNodes)
                 {
-                    //Adding the windows name to list
+                    //Adding the windows name to the list
                     savedControlNameList.Add(node.SelectSingleNode("Name").InnerText);
                 }
             }
@@ -143,13 +156,13 @@ namespace Build_Run
         /// <summary>
         /// Check and add the missed windows to Docking Manager
         /// </summary>
-        /// <param name="contentControl">Instance of current DockingManager</param>
+        /// <param name="contentControl">Instance of DockingManager</param>
         /// <param name="savedControlList">List of windows name from saved layouts</param>
         protected void FindAndAddMissedChidren(DockingManager contentControl, List<string> savedControlList)
         {
-            if (contentControl != null && savedControlList !=null)
+            if (contentControl != null && savedControlList != null)
             {
-                bool isChildrenPresent= false;
+                bool isChildrenPresent = false;
                 foreach (string savedChild in savedControlList)
                 {
                     foreach (FrameworkElement element in contentControl.Children)
@@ -164,15 +177,15 @@ namespace Build_Run
                             isChildrenPresent = false;
                         }
                     }
-                    //Adding the missed windows if not available in DockingManager
+                    //Adding the missed windows if currently not available in DockingManager
                     if (!isChildrenPresent)
                     {
                         ContentControl dummyChild = new ContentControl();
                         dummyChild.Name = savedChild;
                         dockingManager.Children.Add(dummyChild);
                     }
-                }                
+                }
             }
         }
-    }   
+    }
 }

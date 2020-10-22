@@ -190,7 +190,7 @@ namespace Build_Run
         /// </summary>
         /// <param name="currentLayoutPath">The current active mode layout path.</param>
         /// <param name="defaultLayoutPath">The default layout path of the active mode.</param>
-        public void OnResetToDefaultLayout(string currentLayoutPath, string defaultLayoutPath)
+        public void ResetToDefaultLayout(string currentLayoutPath, string defaultLayoutPath)
         {
             XmlDocument document = new XmlDocument();
             document.Load(defaultLayoutPath);
@@ -206,10 +206,10 @@ namespace Build_Run
             IsEnableResetLayout = true;
 
             //Resetting the current edit layout with default edit layout.
-            OnResetToDefaultLayout(currentEditLayout, defaultEditLayout);
+            ResetToDefaultLayout(currentEditLayout, defaultEditLayout);
 
             //Resetting the current run layout with default run layout.
-            OnResetToDefaultLayout(currentRunLayout, defaultRunLayout);
+            ResetToDefaultLayout(currentRunLayout, defaultRunLayout);
 
             if (CurrentMode == VisualStudioMode.RunMode)
             {
@@ -232,8 +232,7 @@ namespace Build_Run
         //Saving the current mode layout
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string layoutPath = string.Empty;
-            BinaryFormatter formatter = new BinaryFormatter();
+            string layoutPath;
 
             //Save the current active mode layout while closing the application
             if (CurrentMode == VisualStudioMode.EditMode)
@@ -244,7 +243,8 @@ namespace Build_Run
             {
                 layoutPath = currentRunLayout;
             }
-            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, layoutPath);
+
+            Save(layoutPath);
         }
     }
 }

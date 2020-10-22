@@ -14,10 +14,15 @@ namespace Build_Run
     /// </summary>
     public partial class MainWindow : Window
     {
+        string currentEditLayout = @"Layouts/CurrentEditLayout.xml";
+        string defaultEditLayout = @"Layouts/DefaultEditLayout.xml";
+        string currentRunLayout = @"Layouts/CurrentRunLayout.xml";
+        string defaultRunLayout = @"Layouts/DefaultRunLayout.xml";
+
         /// <summary>
         /// Enum for active mode
         /// </summary>
-        public enum ActiveMode
+        public enum VisualStudioMode
         {
             EditMode,
             RunMode
@@ -26,19 +31,16 @@ namespace Build_Run
         /// <summary>
         /// Gets or sets the current active mode
         /// </summary>
-        public ActiveMode CurrentMode { get; set; }
+        public VisualStudioMode CurrentMode { get; set; }
 
         //Gets or sets to bool value to load the default layout
         public bool IsEnableResetLayout { get; set; }
 
-        //Gets or sets the missed child windows
-        List<string> MissedChildrens { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
-            dockingManager.Loaded += DockingManager_Loaded;
-            this.Closing += MainWindow_Closing;
+            dockingManager.Loaded += OnLoading;
+            this.Closing += OnClosing;
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace Build_Run
         /// </summary>
         /// <param name="layoutPath">Path of the loading XML file</param>
         /// <returns></returns>
-        private List<string> OnGetSavedWindowList(string layoutPath)
+        private List<string> GetSavedWindowList(string layoutPath)
         {
             List<string> savedControlNameList = new List<string>();
             XmlDocument xmlDoc = new XmlDocument();
@@ -68,37 +70,31 @@ namespace Build_Run
         /// </summary>
         /// <param name="contentControl">Instance of DockingManager</param>
         /// <param name="savedControlList">List of windows name from saved layouts</param>
-        private void OnFindMissedChidren(DockingManager contentControl, List<string> savedControlList)
+        private List<string> FindMissingChidren(DockingManager contentControl, List<string> savedControlList)
         {
-            MissedChildrens = new List<string>();
+            var missedChildrens = new List<string>();
             if (contentControl != null && savedControlList != null)
             {
-                bool isChildrenPresent = false;
                 foreach (string savedChild in savedControlList)
                 {
                     foreach (FrameworkElement element in contentControl.Children)
                     {
-
                         if (element.Name == savedChild)
                         {
-                            isChildrenPresent = true;
                             break;
                         }
-                        else
-                        {
-                            isChildrenPresent = false;
-                        }
                     }
-                    MissedChildrens.Add(savedChild);
+                    missedChildrens.Add(savedChild);
                 }
             }
+            return missedChildrens;
         }
 
         /// <summary>
         /// Adding the missed windows that is not available in DockingManager
         /// </summary>
-        /// <param name="missedChildrens">It contains the missed childrens list.</param>
-        private void OnAddMissedChildrensIntoDockingManager(List<string> missedChildrens)
+        /// <param name="missedChildrens">It contains the missed children list.</param>
+        private void AddMissedChildrensIntoDockingManager(List<string> missedChildrens)
         {
             if (missedChildrens.Count > 0)
             {
@@ -112,59 +108,81 @@ namespace Build_Run
         }
 
         //Save the Previous mode layout and loads the current mode layout
-        private void OnSavePreviousModeLayoutAndLoadCurrentModeLayout(string saveLayoutPath, string loadLayoutPath)
+        private void Switch(VisualStudioMode mode)
+        {
+            string currentLayoutPath;
+            string defaultLayoutPath;
+            if(mode == VisualStudioMode.EditMode)
+            {
+                currentLayoutPath = currentEditLayout;
+                defaultLayoutPath = defaultEditLayout;
+            }
+            else
+            {
+                currentLayoutPath = currentRunLayout;
+                defaultLayoutPath = defaultRunLayout;
+            }
+
+            XmlDocument document = new XmlDocument();
+            document.Load(currentLayoutPath);
+
+            if (document.ChildNodes[1].ChildNodes.Count < 1)
+            {
+                //Check and load the missed windows from default layout
+                Load(defaultLayoutPath);
+
+                //Save the current Edit mode layout
+                Save(currentLayoutPath);
+            }
+            else
+            {
+                //Check and load the missed windows from saved layout
+                Load(currentLayoutPath);
+            }
+        }
+
+        private void Load(string loadLayoutPath)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
 
             //Check and load the missed windows from saved layout
             if (!dockingManager.LoadDockState(loadLayoutPath))
             {
-                OnFindMissedChidren(dockingManager, OnGetSavedWindowList(loadLayoutPath));
-                OnAddMissedChildrensIntoDockingManager(MissedChildrens);
+                var savedWindows = GetSavedWindowList(loadLayoutPath);
+                var missingChildren = FindMissingChidren(dockingManager, savedWindows);
+                AddMissedChildrensIntoDockingManager(missingChildren);
             }
             this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, loadLayoutPath);
         }
 
-        //Based on the mode, set the save and load curren tlayout file path
+        private void Save(string saveLayoutPath)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
+        }
+
+        //Based on the mode, set the save and load current layout file path
         private void OnRunButtonClicked(object sender, RoutedEventArgs e)
         {
-            string saveLayoutPath = string.Empty;
-            string loadLayoutPath = string.Empty;
             string layout_Header = (sender as MenuItem).Header.ToString();
-            BinaryFormatter formatter = new BinaryFormatter();
 
             //Saving the current Edit mode layout and loading the Run mode layout
             if (layout_Header == "Run")
             {
-                CurrentMode = ActiveMode.RunMode;
                 (sender as MenuItem).Header = "Stop";
-                saveLayoutPath = @"Layouts/CurrentEditLayout.xml";
-                try
-                {
-                    loadLayoutPath = @"Layouts/CurrentRunLayout.xml";
-                    XmlDocument document = new XmlDocument();
-                    document.Load(loadLayoutPath);
-                }
-                catch (XmlException exc)
-                {
-                    loadLayoutPath = @"Layouts/DefaultRunLayout.xml";
-                }
+                CurrentMode = VisualStudioMode.RunMode;
+                Save(currentEditLayout);
+                Switch(CurrentMode);
             }
 
             //Saving the current Run mode layout and loading the Edit mode layout
             else if (layout_Header == "Stop")
             {
-                CurrentMode = ActiveMode.EditMode;
-                saveLayoutPath = @"Layouts/CurrentRunLayout.xml";
-
-                this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
                 (sender as MenuItem).Header = "Run";
-                loadLayoutPath = @"Layouts/CurrentEditLayout.xml";
+                CurrentMode = VisualStudioMode.EditMode;
+                Save(currentRunLayout);
+                Switch(CurrentMode);
             }
-
-            //Passing path of previous mode layout and current mode layout
-            OnSavePreviousModeLayoutAndLoadCurrentModeLayout(saveLayoutPath, loadLayoutPath);
         }
 
         /// <summary>
@@ -172,120 +190,61 @@ namespace Build_Run
         /// </summary>
         /// <param name="currentLayoutPath">The current active mode layout path.</param>
         /// <param name="defaultLayoutPath">The default layout path of the active mode.</param>
-        public void OnResetToDefaultLayout(string currentLayoutPath, string defaultLayoutPath)
+        public void ResetToDefaultLayout(string currentLayoutPath, string defaultLayoutPath)
         {
             XmlDocument document = new XmlDocument();
             document.Load(defaultLayoutPath);
 
             //Save the default layout into Current mode layout file 
             document.Save(currentLayoutPath);
-
         }
 
         //Reset the current layout to default layout
         private void OnResetLayoutClicked(object sender, RoutedEventArgs e)
         {
             string currentLayout;
-            string defaultLayout;
-            BinaryFormatter formatter = new BinaryFormatter();
             IsEnableResetLayout = true;
 
             //Resetting the current edit layout with default edit layout.
-            currentLayout = @"Layouts/CurrentEditLayout.xml";
-            defaultLayout = @"Layouts/DefaultEditLayout.xml";
-            OnResetToDefaultLayout(currentLayout, defaultLayout);
+            ResetToDefaultLayout(currentEditLayout, defaultEditLayout);
 
             //Resetting the current run layout with default run layout.
-            currentLayout = @"Layouts/CurrentRunLayout.xml";
-            defaultLayout = @"Layouts/DefaultRunLayout.xml";
-            OnResetToDefaultLayout(currentLayout, defaultLayout);
+            ResetToDefaultLayout(currentRunLayout, defaultRunLayout);
 
-            if (CurrentMode == ActiveMode.RunMode)
+            if (CurrentMode == VisualStudioMode.RunMode)
             {
-                currentLayout = @"Layouts/CurrentRunLayout.xml";
+                currentLayout = currentRunLayout;
             }
             else
             {
-                currentLayout = @"Layouts/CurrentEditLayout.xml";
+                currentLayout = currentEditLayout;
             }
 
-            if (!this.dockingManager.LoadDockState(currentLayout))
-            {
-                OnFindMissedChidren(dockingManager, OnGetSavedWindowList(currentLayout));
-                OnAddMissedChildrensIntoDockingManager(MissedChildrens);
-            }
-            this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, currentLayout);
+            Load(currentLayout);
         }
 
         //Check and load the currently saved Edit mode layout
-        private void DockingManager_Loaded(object sender, RoutedEventArgs e)
+        private void OnLoading(object sender, RoutedEventArgs e)
         {
-            string currentEditLayoutpath = @"Layouts/CurrentEditLayout.xml";
-            string defaultEditLayoutpath = @"Layouts/DefaultEditLayout.xml";
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            //Check and load the currently saved Edit mode layout
-            if (File.Exists(currentEditLayoutpath))
-            {
-                try
-                {
-                    XmlDocument document = new XmlDocument();
-                    document.Load(currentEditLayoutpath);
-                    //Check and load the missed windows from saved layout
-                    if (!dockingManager.LoadDockState(currentEditLayoutpath))
-                    {
-                        OnFindMissedChidren(dockingManager, OnGetSavedWindowList(currentEditLayoutpath));
-                        OnAddMissedChildrensIntoDockingManager(MissedChildrens);
-                    }
-                    this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, currentEditLayoutpath);
-                }
-                catch (XmlException exc)
-                {
-                    //Check and load the missed windows from default layout
-                    if (!dockingManager.LoadDockState(defaultEditLayoutpath))
-                    {
-                        OnFindMissedChidren(dockingManager, OnGetSavedWindowList(defaultEditLayoutpath));
-                        OnAddMissedChildrensIntoDockingManager(MissedChildrens);
-                    }
-                    //Loading the last Edit mode saved layout
-                    this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, defaultEditLayoutpath);
-
-                    //Save the current Edit mode layout
-                    this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, currentEditLayoutpath);
-                }
-            }
-            else
-            {
-                //Check and load the missed windows from default layout
-                if (!dockingManager.LoadDockState(defaultEditLayoutpath))
-                {
-                    OnFindMissedChidren(dockingManager, OnGetSavedWindowList(defaultEditLayoutpath));
-                    OnAddMissedChildrensIntoDockingManager(MissedChildrens);
-                }
-                //Loading the default Edit mode layout
-                this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, defaultEditLayoutpath);
-            }
+            Switch(CurrentMode);
         }
 
         //Saving the current mode layout
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string layoutPath = string.Empty;
-            BinaryFormatter formatter = new BinaryFormatter();
+            string layoutPath;
 
             //Save the current active mode layout while closing the application
-            if (CurrentMode == ActiveMode.EditMode)
+            if (CurrentMode == VisualStudioMode.EditMode)
             {
-                layoutPath = @"Layouts/CurrentEditLayout.xml";
+                layoutPath = currentEditLayout;
             }
             else
             {
-                layoutPath = @"Layouts/CurrentRunLayout.xml";
+                layoutPath = currentRunLayout;
             }
-            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, layoutPath);
+
+            Save(layoutPath);
         }
-
     }
-
-        
 }

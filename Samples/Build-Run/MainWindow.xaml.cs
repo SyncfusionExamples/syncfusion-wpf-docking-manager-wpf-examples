@@ -34,7 +34,7 @@ namespace Build_Run
         public VisualStudioMode CurrentMode { get; set; }
 
         //Gets or sets to bool value to load the default layout
-        public bool IsEnableResetLayout { get; set; }
+       // public bool IsEnableResetLayout { get; set; }
 
         public MainWindow()
         {
@@ -203,7 +203,6 @@ namespace Build_Run
         private void OnResetLayoutClicked(object sender, RoutedEventArgs e)
         {
             string currentLayout;
-            IsEnableResetLayout = true;
 
             //Resetting the current edit layout with default edit layout.
             ResetToDefaultLayout(currentEditLayout, defaultEditLayout);

@@ -22,7 +22,7 @@ namespace Build_Run
         /// <summary>
         /// Enum for active mode
         /// </summary>
-        public enum ActiveMode
+        public enum VisualStudioMode
         {
             EditMode,
             RunMode
@@ -31,7 +31,7 @@ namespace Build_Run
         /// <summary>
         /// Gets or sets the current active mode
         /// </summary>
-        public ActiveMode CurrentMode { get; set; }
+        public VisualStudioMode CurrentMode { get; set; }
 
         //Gets or sets to bool value to load the default layout
         public bool IsEnableResetLayout { get; set; }
@@ -108,7 +108,40 @@ namespace Build_Run
         }
 
         //Save the Previous mode layout and loads the current mode layout
-        private void LoadState(string loadLayoutPath)
+        private void Switch(VisualStudioMode mode)
+        {
+            string currentLayoutPath;
+            string defaultLayoutPath;
+            if(mode == VisualStudioMode.EditMode)
+            {
+                currentLayoutPath = currentEditLayout;
+                defaultLayoutPath = defaultEditLayout;
+            }
+            else
+            {
+                currentLayoutPath = currentRunLayout;
+                defaultLayoutPath = defaultRunLayout;
+            }
+
+            XmlDocument document = new XmlDocument();
+            document.Load(currentLayoutPath);
+
+            if (document.ChildNodes[1].ChildNodes.Count < 1)
+            {
+                //Check and load the missed windows from default layout
+                Load(defaultLayoutPath);
+
+                //Save the current Edit mode layout
+                Save(currentLayoutPath);
+            }
+            else
+            {
+                //Check and load the missed windows from saved layout
+                Load(currentLayoutPath);
+            }
+        }
+
+        private void Load(string loadLayoutPath)
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
@@ -122,44 +155,10 @@ namespace Build_Run
             this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, loadLayoutPath);
         }
 
-        private void SaveState(string saveLayoutPath)
+        private void Save(string saveLayoutPath)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
-        }
-
-        private void SwitchToRunMode()
-        {
-            CurrentMode = ActiveMode.RunMode;
-
-            //Passing path of previous mode layout and current mode layout
-            SaveState(currentEditLayout);
-
-            XmlDocument document = new XmlDocument();
-            document.Load(currentRunLayout);
-
-            if (document.ChildNodes[1].ChildNodes.Count < 1)
-            {
-                //Check and load the missed windows from default layout
-                LoadState(defaultRunLayout);
-
-                //Save the current Edit mode layout
-                SaveState(currentRunLayout);
-            }
-            else
-            {
-                //Check and load the missed windows from saved layout
-                LoadState(currentRunLayout);
-            }
-            LoadState(currentRunLayout);
-        }
-
-        private void SwitchToEditMode()
-        {
-            CurrentMode = ActiveMode.EditMode;
-
-            SaveState(currentRunLayout);
-            LoadState(currentEditLayout);
         }
 
         //Based on the mode, set the save and load current layout file path
@@ -171,14 +170,18 @@ namespace Build_Run
             if (layout_Header == "Run")
             {
                 (sender as MenuItem).Header = "Stop";
-                SwitchToRunMode();
+                CurrentMode = VisualStudioMode.RunMode;
+                Save(currentEditLayout);
+                Switch(CurrentMode);
             }
 
             //Saving the current Run mode layout and loading the Edit mode layout
             else if (layout_Header == "Stop")
             {
                 (sender as MenuItem).Header = "Run";
-                SwitchToEditMode();
+                CurrentMode = VisualStudioMode.EditMode;
+                Save(currentRunLayout);
+                Switch(CurrentMode);
             }
         }
 
@@ -208,7 +211,7 @@ namespace Build_Run
             //Resetting the current run layout with default run layout.
             OnResetToDefaultLayout(currentRunLayout, defaultRunLayout);
 
-            if (CurrentMode == ActiveMode.RunMode)
+            if (CurrentMode == VisualStudioMode.RunMode)
             {
                 currentLayout = currentRunLayout;
             }
@@ -217,31 +220,13 @@ namespace Build_Run
                 currentLayout = currentEditLayout;
             }
 
-            LoadState(currentLayout);
+            Load(currentLayout);
         }
 
         //Check and load the currently saved Edit mode layout
         private void OnLoading(object sender, RoutedEventArgs e)
         {
-            string currentEditLayoutpath = currentEditLayout;
-            string defaultEditLayoutpath = defaultEditLayout;
-
-            XmlDocument document = new XmlDocument();
-            document.Load(currentEditLayoutpath);
-
-            if (document.ChildNodes[1].ChildNodes.Count < 1)
-            {
-                //Check and load the missed windows from default layout
-                LoadState(defaultEditLayoutpath);
-
-                //Save the current Edit mode layout
-                SaveState(currentEditLayoutpath);
-            }
-            else
-            {
-                //Check and load the missed windows from saved layout
-                LoadState(currentEditLayoutpath);
-            }
+            Switch(CurrentMode);
         }
 
         //Saving the current mode layout
@@ -251,7 +236,7 @@ namespace Build_Run
             BinaryFormatter formatter = new BinaryFormatter();
 
             //Save the current active mode layout while closing the application
-            if (CurrentMode == ActiveMode.EditMode)
+            if (CurrentMode == VisualStudioMode.EditMode)
             {
                 layoutPath = currentEditLayout;
             }

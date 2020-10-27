@@ -1,0 +1,19 @@
+﻿<Window x:Class="DocumentTabOrdering.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DocumentTabOrdering" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        mc:Ignorable="d"
+        Title="DocumentContainer - TDI window ordering" Height="450" Width="800">
+    <Grid>
+        <syncfusion:DocumentContainer DocumentTabOrderChanging="documentcontainer1_DocumentTabOrderChanging"
+                                      DocumentTabOrderChanged="documentcontainer1_DocumentTabOrderChanged"
+                                      Name="documentcontainer1"
+                                      Mode="TDI">
+            <Grid syncfusion:DockingManager.Header="Tab1" syncfusion:DockingManager.State="Document"/>
+            <Grid syncfusion:DockingManager.Header="Tab2" syncfusion:DockingManager.State="Document"/>
+            <Grid syncfusion:DockingManager.Header="Tab3" syncfusion:DockingManager.State="Document"/>
+        </syncfusion:DocumentContainer>
+    </Grid>
+</Window>

@@ -14,6 +14,7 @@ namespace Build_Run
     /// </summary>
     public partial class MainWindow : Window
     {
+        //String variables that storing the default and current run and edit mode layout XML file path
         string currentEditLayout = @"Layouts/CurrentEditLayout.xml";
         string defaultEditLayout = @"Layouts/DefaultEditLayout.xml";
         string currentRunLayout = @"Layouts/CurrentRunLayout.xml";
@@ -34,13 +35,22 @@ namespace Build_Run
         public VisualStudioMode CurrentMode { get; set; }
 
         //Gets or sets to bool value to load the default layout
-       // public bool IsEnableResetLayout { get; set; }
+        // public bool IsEnableResetLayout { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            //Invoking the docking manager loaded event
             dockingManager.Loaded += OnLoading;
+
+            //Invoking the window closing event
             this.Closing += OnClosing;
+
+            //Invoking the reset layout button click event
+            resetLayout.Click += OnResetLayoutClicked;
+
+            //Invoking the Stop and Run mode switch button click event
+            runButton.Click += OnRunButtonClicked;
         }
 
         /// <summary>
@@ -128,19 +138,33 @@ namespace Build_Run
 
             if (document.ChildNodes[1].ChildNodes.Count < 1)
             {
-                //Check and load the missed windows from default layout
+                //Load the default layout
                 Load(defaultLayoutPath);
 
-                //Save the current Edit mode layout
+                //Save the default layout as current layout
                 Save(currentLayoutPath);
             }
             else
             {
-                //Check and load the missed windows from saved layout
+                //Load currently saved layout
                 Load(currentLayoutPath);
             }
         }
 
+        /// <summary>
+        /// To save the previous mode layout
+        /// </summary>
+        /// <param name="saveLayoutPath">Path of the saving layout file</param>
+        private void Save(string saveLayoutPath)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
+        }
+
+        /// <summary>
+        /// Load the current mode layout
+        /// </summary>
+        /// <param name="loadLayoutPath">Path of the loading layout path</param>
         private void Load(string loadLayoutPath)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -153,12 +177,6 @@ namespace Build_Run
                 AddMissedChildrensIntoDockingManager(missingChildren);
             }
             this.dockingManager.LoadDockState(formatter, StorageFormat.Xml, loadLayoutPath);
-        }
-
-        private void Save(string saveLayoutPath)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            this.dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
         }
 
         //Based on the mode, set the save and load current layout file path

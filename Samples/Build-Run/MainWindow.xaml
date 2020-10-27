@@ -16,16 +16,15 @@
                 <!--Reset menu item to reset the layout-->
                 <MenuItem
                     x:Name="resetLayout"
-                    Click="OnResetLayoutClicked"
                     Header="Reset Layout" />
                 <!--Run menu item to load the run or stop layouts for the application-->
                 <MenuItem Header="Run"
-                          Name="debug_option"
-                          Click="OnRunButtonClicked"/>
+                          Name="runButton"/>
             </Menu>
         </Grid>
         <Grid Grid.Row="1">
-            <syncfusion:DockingManager x:Name="dockingManager" PersistState="True"
+            <syncfusion:DockingManager x:Name="dockingManager" 
+                                       PersistState="True"
                                        UseDocumentContainer="True" >
                  <!--Output docking window--> 
                 <ContentControl x:Name="Output"

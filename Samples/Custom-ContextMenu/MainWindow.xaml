@@ -1,0 +1,192 @@
+﻿<Window x:Class="Contextmenu.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="DockigManager - Custom ContextMenu" Height="600" Width="800">
+    <Grid>
+        <syncfusion:DockingManager
+            UseDocumentContainer="True"
+            CollapseDefaultTabListContextMenuItems="True"
+            CollapseDefaultContextMenuItems="True"
+         
+            x:Name="DockingManager" >
+
+            <!--Adding custom context menu items for docking windows-->
+            <syncfusion:DockingManager.DockWindowContextMenuItems>
+                <syncfusion:CustomMenuItemCollection>
+                    <!--Adding custom context menu items-->
+                    <syncfusion:CustomMenuItem Header="DockMenu 1"/>
+                    <syncfusion:CustomMenuItem Header="DockMenu 2">
+
+                        <!--Adding sub custom context menu items-->
+                        <syncfusion:CustomMenuItem Header="DockSubMenu 1"/>
+                        <syncfusion:CustomMenuItem Header="DockSubMenu 2"/>
+                        <syncfusion:CustomMenuItem Header="DockSubMenu 3" IsChecked="True"/>
+                    </syncfusion:CustomMenuItem>
+                </syncfusion:CustomMenuItemCollection>
+            </syncfusion:DockingManager.DockWindowContextMenuItems>
+
+            <!--Adding custom context menu items for float windows-->
+            <syncfusion:DockingManager.FloatWindowContextMenuItems>
+                <syncfusion:CustomMenuItemCollection>
+                    <!--Adding custom context menu items-->
+                    <syncfusion:CustomMenuItem Header="FloatMenu 1">
+                        <!--Adding sub custom context menu items-->
+                        <syncfusion:CustomMenuItem Header="FloatSubMenu 1"/>
+                        <syncfusion:CustomMenuItem Header="FloatSubMenu 2" IsChecked="True"/>
+                        <syncfusion:CustomMenuItem Header="FloatSubMenu 3">
+                        </syncfusion:CustomMenuItem>
+                    </syncfusion:CustomMenuItem>
+                    <syncfusion:CustomMenuItem Header="FloatMenu 2"/>
+                </syncfusion:CustomMenuItemCollection>
+            </syncfusion:DockingManager.FloatWindowContextMenuItems>
+
+            <!--Adding custom context menu items for tab items-->
+            <syncfusion:DockingManager.DocumentTabItemContextMenuItems>
+
+                <!--Adding custom context menu items-->
+                <syncfusion:CustomMenuItem Header="Tab Menu 1">
+                    <!--Adding sub custom context menu items-->
+                    <syncfusion:CustomMenuItem Header="TabSubMenu 1"/>
+                    <syncfusion:CustomMenuItem Header="TabSubMenu 2"/>
+                    <syncfusion:CustomMenuItem Header="TabSubMenu 3" IsChecked="True">
+
+                        <!--Adding sub custom context menu items for 'SubMenu 3'-->
+                        <syncfusion:CustomMenuItem Header="Level 2"/>
+                    </syncfusion:CustomMenuItem>
+                </syncfusion:CustomMenuItem>
+                <syncfusion:CustomMenuItem Header="Tab Menu 2"/>
+            </syncfusion:DockingManager.DocumentTabItemContextMenuItems>
+
+            <!--Adding custom tab list context menu items-->
+            <syncfusion:DockingManager.TabListContextMenuItems>
+
+                <!--Adding custom context menu items-->
+                <syncfusion:CustomMenuItem Header="CustomMenu 1"/>
+                <syncfusion:CustomMenuItem Header="CustomMenu 2">
+
+                    <!--Adding sub custom context menu items-->
+                    <syncfusion:CustomMenuItem Header="ListSubMenu 1"/>
+                    <syncfusion:CustomMenuItem Header="ListSubMenu 2" IsChecked="True"/>
+                    <syncfusion:CustomMenuItem Header="ListSubMenu 3">
+
+                        <!--Adding sub custom context menu items for 'SubMenu 3'-->
+                        <syncfusion:CustomMenuItem Header="Level 2"/>
+                    </syncfusion:CustomMenuItem>
+                </syncfusion:CustomMenuItem>
+            </syncfusion:DockingManager.TabListContextMenuItems>
+            <ContentControl
+                Name="Output"
+                syncfusion:DockingManager.Header="Output"
+                syncfusion:DockingManager.SideInDockedMode="Bottom"
+                syncfusion:DockingManager.CollapseDefaultContextMenuItemsInDock="True"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="150">
+
+                <!-- Output docking window -->
+
+            </ContentControl>
+
+            <ContentControl 
+                Name="FindResults" 
+                syncfusion:DockingManager.Header="Find Results"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="Output" >
+
+                <!-- Find Results docking window -->
+
+            </ContentControl>
+
+            <ContentControl
+                Name="ErrorList" 
+                syncfusion:DockingManager.Header="Error List"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="Output" >
+
+                <!-- Error List docking window -->
+
+            </ContentControl>
+
+            <ContentControl
+                Name="SolutionExplorer"
+                syncfusion:DockingManager.Header="Solution Explorer"
+                syncfusion:DockingManager.SideInDockedMode="Right"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="200">
+
+                <!-- Solution Explorer docking window -->
+
+            </ContentControl>
+
+            <ContentControl 
+                Name="ClassView" 
+                syncfusion:DockingManager.Header="Class View"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+
+                <!-- Class View docking window -->
+
+            </ContentControl>
+
+
+            <ContentControl
+                Name="Properties" 
+                syncfusion:DockingManager.Header="Properties Window"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+
+                <!-- Properties docking window -->
+
+            </ContentControl>
+
+            <ContentControl
+                Name="Toolbox"
+                syncfusion:DockingManager.Header="Toolbox"
+                syncfusion:DockingManager.State="Dock"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="180">
+
+                <!-- Toolbox docking window -->
+
+            </ContentControl>
+
+            <ContentControl
+                Name="doument1"
+                syncfusion:DockingManager.Header="MainWindow.xaml"
+                syncfusion:DockingManager.State="Document"
+                syncfusion:DockingManager.ShowCloseAllButThisMenuItem="False"
+                syncfusion:DockingManager.ShowCloseAllMenuItem="False"
+                syncfusion:DockingManager.ShowCloseMenuItem="False"
+                syncfusion:DockingManager.CollapseDefaultContextMenuItemsInDocumentTab="True">
+
+                <!-- Document window -->
+
+            </ContentControl>
+
+            <ContentControl
+                Name="doument2"
+                syncfusion:DockingManager.Header="MainWindow.xaml.cs"
+                syncfusion:DockingManager.State="Document"
+                syncfusion:DockingManager.ShowCloseAllButThisMenuItem="False"
+                syncfusion:DockingManager.ShowCloseAllMenuItem="False"
+                syncfusion:DockingManager.ShowCloseMenuItem="False"
+                syncfusion:DockingManager.CollapseDefaultContextMenuItemsInDocumentTab="True">
+
+                <!-- Document window -->
+
+            </ContentControl>
+
+
+            <ContentControl
+                syncfusion:DockingManager.Header="Float Window"
+                syncfusion:DockingManager.CollapseDefaultContextMenuItemsInFloat="True"
+                syncfusion:DockingManager.FloatingWindowRect="550,200,250,250"
+                syncfusion:DockingManager.State="Float">
+
+                <!-- Float window -->
+                
+            </ContentControl>
+        </syncfusion:DockingManager>
+
+    </Grid>
+</Window>

@@ -87,12 +87,11 @@ namespace Build_Run
             {
                 foreach (string savedChild in savedControlList)
                 {
-                    foreach (FrameworkElement element in contentControl.Children)
+                    if (contentControl.Children
+                        .OfType<FrameworkElement>()
+                        .Any((element) => element.Name == savedChild))
                     {
-                        if (element.Name == savedChild)
-                        {
-                            break;
-                        }
+                        continue;
                     }
                     missedChildrens.Add(savedChild);
                 }

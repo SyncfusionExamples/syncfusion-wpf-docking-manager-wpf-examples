@@ -11,19 +11,11 @@
     </UserControl.Resources>
     <StackPanel x:Name="stackPanel" Orientation="Horizontal">
         <StackPanel Orientation="Horizontal">
+            <Image Source="/Syncfusion.jpg" Width="16" Height="16" Margin="3,0,0,0"/>
             <TextBlock
       Margin="3,0"
       VerticalAlignment="Center"
       Text="{Binding DocumentTitle}" />
-            <Ellipse
-      Width="6"
-      Height="6"
-      Margin="1"
-      VerticalAlignment="Center"
-      Fill="Red"
-      Stroke="Black"
-      StrokeThickness="1"
-      Visibility="{Binding DocumentIsModified, Converter={StaticResource BoolVisibilityConverter}}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

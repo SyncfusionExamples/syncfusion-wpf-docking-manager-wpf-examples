@@ -58,23 +58,13 @@ namespace WpfApp2
 
             DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "ToolBox", DocumentIsModified = true}, Name = "tool", State = DockState.Dock, DesiredWidthInDockedMode = 300d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "Integration", DocumentIsModified = true }, State = DockState.Document, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
+            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "Integration", DocumentIsModified = true }, State = DockState.Dock, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "Features", DocumentIsModified = true }, State = DockState.Document, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
+            DockItemCollection.Add(new DockItem() { Header = "Features", State = DockState.Dock});
 
-            DockItemCollection.Add(new DockItem() { Header = "Docking", State = DockState.Document });
+            DockItemCollection.Add(new DockItem() { Header = "Docking", State = DockState.Dock });
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "SolutionExplorer", DocumentIsModified = true }, Name = "solution", State = DockState.Dock, SideInDockedMode = DockSide.Right, DesiredWidthInDockedMode = 300d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
-
-            DockItemCollection.Add(new DockItem() { Header = "Properties Window", Name = "Properties", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "solution" });
-
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentTitle = "Output", DocumentIsModified = true }, Name = "Output", State = DockState.Dock, SideInDockedMode = DockSide.Bottom, DesiredHeightInDockedMode = 200d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
-
-            DockItemCollection.Add(new DockItem() { Header = "Error List", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "Output" });
-
-            DockItemCollection.Add(new DockItem() { Header = "Find Symbol Results", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "Output" });
-
-            DockItemCollection.Add(new DockItem() { Header = "Find Results", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "Output" });
+            
         }
     }
 }

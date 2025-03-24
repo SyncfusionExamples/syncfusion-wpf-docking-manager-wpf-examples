@@ -13,10 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace WpfApp2
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for CustomHeader.xaml
     /// </summary>
     public partial class CustomHeader : UserControl
     {

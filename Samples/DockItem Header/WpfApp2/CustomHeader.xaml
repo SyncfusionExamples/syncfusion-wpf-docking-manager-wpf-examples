@@ -11,11 +11,34 @@
     </UserControl.Resources>
     <StackPanel x:Name="stackPanel" Orientation="Horizontal">
         <StackPanel Orientation="Horizontal">
-            <Image Source="/Syncfusion.jpg" Width="16" Height="16" Margin="3,0,0,0"/>
+            <Image Width="16" Height="16" Margin="3,0,0,0">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="ToolBox">
+                                <Setter Property="Source" Value="/ToolBox.jpg"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Features">
+                                <Setter Property="Source" Value="/HeaderImg.jpg"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Docking">
+                                <Setter Property="Source" Value="/Dock.jpg"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="ChatGPT">
+                                <Setter Property="Source" Value="/ChatGpt.jpg"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Output">
+                                <Setter Property="Source" Value="/Syncfusion.jpg"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
             <TextBlock
       Margin="3,0"
       VerticalAlignment="Center"
-      Text="{Binding DocumentTitle}" />
+      Text="{Binding DocumentTitle}" >
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </UserControl>

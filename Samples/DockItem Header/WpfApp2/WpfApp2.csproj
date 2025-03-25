@@ -112,5 +112,17 @@
   <ItemGroup>
     <Resource Include="Syncfusion.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HeaderImg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ToolBox.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Dock.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ChatGpt.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -60,15 +60,15 @@ namespace WpfApp2
 
             DockItemCollection.Add(new DockItem() { Header = "Integration", State = DockState.Document});
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "ChatGPT" }, State = DockState.Document, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
+            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Admin" }, State = DockState.Document, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
             DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Docking" }, State = DockState.Document, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Features" }, Name = "solution", State = DockState.Dock, SideInDockedMode = DockSide.Right, DesiredWidthInDockedMode = 300d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
+            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Bookmark" }, Name = "solution", State = DockState.Dock, SideInDockedMode = DockSide.Right, DesiredWidthInDockedMode = 300d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
             DockItemCollection.Add(new DockItem() { Header = "Properties Window", Name = "Properties", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "solution" });
 
-            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Output" }, Name = "Output", State = DockState.Dock, SideInDockedMode = DockSide.Bottom, DesiredHeightInDockedMode = 200d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
+            DockItemCollection.Add(new DockItem() { Header = new Header { DocumentIsModified = true, DocumentTitle = "Clipboard" }, Name = "Output", State = DockState.Dock, SideInDockedMode = DockSide.Bottom, DesiredHeightInDockedMode = 200d, HeaderTemplate = (DataTemplate)Application.Current.FindResource("HeaderTemplate") });
 
             DockItemCollection.Add(new DockItem() { Header = "Error List", State = DockState.Dock, SideInDockedMode = DockSide.Tabbed, TargetNameInDockedMode = "Output" });
 

@@ -41,8 +41,9 @@
     <Reference Include="Syncfusion.Shared.WPF, Version=28.2462.12.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Shared.WPF.28.2.12\lib\net462\Syncfusion.Shared.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Tools.WPF, Version=28.2462.12.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Tools.WPF.28.2.12\lib\net462\Syncfusion.Tools.WPF.dll</HintPath>
+    <Reference Include="Syncfusion.Tools.WPF, Version=29.1462.27.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\WPF Build\WPF\29.1.27\precompiledassemblies\4.6.2\Syncfusion.Tools.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -112,19 +113,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Syncfusion.jpg" />
+    <Resource Include="Docking-Manager.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="HeaderImg.jpg" />
+    <Resource Include="Toolbox-02.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ToolBox.jpg" />
+    <Resource Include="Admin2.png" />
+    <Resource Include="Clipboard-02.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Dock.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ChatGpt.jpg" />
+    <Resource Include="Bookmark Delete01-WF.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

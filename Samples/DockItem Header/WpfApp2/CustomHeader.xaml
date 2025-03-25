@@ -16,19 +16,19 @@
                     <Style TargetType="Image">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding DocumentTitle}" Value="ToolBox">
-                                <Setter Property="Source" Value="/ToolBox.jpg"/>
+                                <Setter Property="Source" Value="/Toolbox-02.png"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Features">
-                                <Setter Property="Source" Value="/HeaderImg.jpg"/>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Admin">
+                                <Setter Property="Source" Value="/Admin2.png"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding DocumentTitle}" Value="Docking">
-                                <Setter Property="Source" Value="/Dock.jpg"/>
+                                <Setter Property="Source" Value="/Docking-Manager.png"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding DocumentTitle}" Value="ChatGPT">
-                                <Setter Property="Source" Value="/ChatGpt.jpg"/>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Clipboard">
+                                <Setter Property="Source" Value="/Clipboard-02.png"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Output">
-                                <Setter Property="Source" Value="/Syncfusion.jpg"/>
+                            <DataTrigger Binding="{Binding DocumentTitle}" Value="Bookmark">
+                                <Setter Property="Source" Value="/Bookmark Delete01-WF.png"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

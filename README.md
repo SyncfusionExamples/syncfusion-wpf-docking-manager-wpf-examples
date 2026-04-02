@@ -1,16 +1,21 @@
-## DockingManager control samples
-This repository contains the samples that demonstrate the functionalities of DockingManager.
+# Syncfusion WPF DockingManager Samples
 
-<table>
- <tr>
-  <td><a href="Samples/AutoHideWindow-Dragging">Dragging AutoHideWindow</a></td>
-  <td><a href="Samples/PreviewDockHints">Restrict docking hints</a></td>
-  <td><a href="Samples/Build-Run">Build and Run mode like VisualStudio</a></td>
-  <td><a href="Samples/TabbedWindowOrdering">Restrict Tabbed and Document window ordering</a></td>
- </tr>
-  <tr>
-  <td><a href="Samples/TabbedWindowOrdering">Tabbed and Document window re-ordering notification</a></td>
-  <td><a href="Samples/DocumentTabOrdering">Restrict TDI window ordering in DocumentContainer</a></td>
-  <td><a href="Samples/DocumentTabOrdering">TDI window re-ordering notification in DocumentContainer</a></td>
- </tr>
-</table>
+A collection of focused WPF examples showcasing Syncfusion DockingManager and DocumentContainer behaviors: dock hint customization, tab/document reordering control, layout persistence, auto-hide window dragging, and custom dock item headers.
+
+## Features Demonstrated
+
+- Dock hints interception and customization at drag time (PreviewDockHints → ICommand → DockAbility)
+- Restricting tabbed tool window and document tab reordering; inspecting OldIndex/NewIndex and source/target groups
+- TDI (Tabbed Document Interface) with DocumentContainer and reorder notifications
+- Layout persistence with XML files and VS-like mode switching (Edit/Run)
+- Custom dock item headers (icon/title) via DataTemplates
+
+## About the Samples
+
+- AutoHideWindow-Dragging: WPF scaffold for auto-hide pane dragging.
+- Build-Run: Save/Load XML layouts to switch between Edit and Run modes; includes helpers (GetSavedWindowList, FindMissingChidren) and save-on-close.
+- Custom-ContextMenu: WPF scaffold targeting context menu customization scenarios.
+- DockItem Header: App scaffold for demonstrating dock item header customization.
+- DocumentTabOrdering: Cancel reordering in DocumentTabOrderChanging; inspect OldIndex/NewIndex and Source/TargetTabGroup in DocumentTabOrderChanged.
+- PreviewDockHints: EventToCommandBehavior forwards PreviewDockHints to a command; UpdateDockingHints modifies DockAbility by DraggingTarget.Name.
+- TabbedWindowOrdering: Project scaffolding for reordering control of tool/document tabs.
